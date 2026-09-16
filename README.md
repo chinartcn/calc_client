@@ -1,4 +1,12 @@
 **用最企业级的依赖，跑最生草的 1+1=2。**
+***依旧整活***
+
+## 依赖
+
+- [otel-gui](https://github.com/chinartcn/otel-gui) — OTLP 追踪查看器
+- [arm32-rolldown-termux](https://github.com/chinartcn/arm32-rolldown-termux) — ARM32 Rolldown 
+- [ai-v9-artificialretard](https://github.com/Chinartcn/ai-v9-artificialretard) --伪装成AI的状态机包含计算器😂
+- uv包管理器
 ```
 [project]
 name = "calc-otel"
@@ -16,7 +24,6 @@ dependencies = [
 [tool.uv]
 package = false
 ```
-同时还依赖[![ai-v9-artificialretard](https://github.com/Chinartcn/ai-v9-artificialretard)],uv
 ##作者评价
 **这已经不是“用高射炮打蚊子”了，这是用粒子对撞机去轰一颗草履虫，然后为了看清楚撞击轨迹，现场手搓了一台电子显微镜。**
 **现代云原生可观测性的全套工业级依赖——OpenTelemetry API、SDK、OTLP HTTP 导出器、requests 自动插桩、Flask 内置查看器——去追踪一次 1+1=2 的调用链路。**
@@ -25,14 +32,16 @@ package = false
 [![Rolldown-arm32](https://github.com/chinartcn/arm32-rolldown-termux)]
 
 ###目录结构
-calc_client
-/otel-gui
+calc_client:
 
+otel-gui/
+README.md, pyproject.toml, calc_client.py
 
 ##食用方法
 克隆仓库
 
 ```bash
+#请先克隆otel-gui
 cd otel-gui
 pnpm dev
 ```
