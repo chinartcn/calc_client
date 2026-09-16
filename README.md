@@ -3,7 +3,7 @@
 
 ## 依赖
 
-- [otel-gui](https://github.com/chinartcn/otel-gui) — OTLP 追踪查看器
+- [otel-gui](https://github.com/metafab/otel-gui) — OTLP 追踪查看器
 - [arm32-rolldown-termux](https://github.com/chinartcn/arm32-rolldown-termux) — ARM32 Rolldown 
 - [ai-v9-artificialretard](https://github.com/Chinartcn/ai-v9-artificialretard) --伪装成AI的状态机包含计算器😂
 - uv包管理器
