@@ -61,11 +61,11 @@ fi
 
 # ---- 检测用 uv 还是 python ----
 if command -v uv >/dev/null 2>&1 && [[ -f "$ROOT/pyproject.toml" ]]; then
-  RUN_CALC="${activate_cmd}uv run calc_client.py --api-host 0.0.0.0 --pow-difficulty 3"
+  RUN_CALC="${activate_cmd}uv run calc_client.py --api-host 0.0.0.0 --pow-difficulty 3 --otlp http://127.0.0.1:4318/v1/traces"
   RUN_APP="${activate_cmd}uv run app.py"
   RUN_SDK="${activate_cmd}uv run sdk.py"
 else
-  RUN_CALC="${activate_cmd}python3 calc_client.py --api-host 0.0.0.0 --pow-difficulty 3"
+  RUN_CALC="${activate_cmd}python3 calc_client.py --api-host 0.0.0.0 --pow-difficulty 3 --otlp http://127.0.0.1:4318/v1/traces"
   RUN_APP="${activate_cmd}python3 app.py"
   RUN_SDK="${activate_cmd}python3 sdk.py"
 fi
