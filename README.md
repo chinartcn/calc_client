@@ -1,13 +1,41 @@
+# 🧮 calc-otel
+
 **用最企业级的依赖，跑最生草的 1+1=2。**
-***依旧整活***
 
-## 依赖
+> *这已经不是"用高射炮打蚊子"了，这是用粒子对撞机去轰一颗草履虫，然后为了看清楚撞击轨迹，现场手搓了一台电子显微镜。*
 
-- [otel-gui](https://github.com/metafab/otel-gui) — OTLP 追踪查看器
-- [arm32-rolldown-termux](https://github.com/chinartcn/arm32-rolldown-termux) — ARM32 Rolldown 
-- [ai-v9-artificialretard](https://github.com/Chinartcn/ai-v9-artificialretard) --伪装成AI的状态机包含计算器😂
-- uv包管理器
-```
+[![Python](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/)
+[![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-1.24+-blueviolet)](https://opentelemetry.io/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+---
+
+## 📖 这到底是个啥
+
+现代云原生可观测性的全套工业级依赖——OpenTelemetry API、SDK、OTLP HTTP 导出器、requests 自动插桩、Flask 内置查看器——**去追踪一次 1+1=2 的调用链路**。
+
+在 `calc_client.py` 里，每一个按键都被拆成了一个 click span，底下挂着 HTTP POST、json.parse、ui.parse 三个子 span。一次 1+1 算下来，**27 个 span**，横跨 client、internal、server 多种 span kind。
+
+还非要在 **ARM32 安卓手机**上，把 Rust 的 611 个包编译出来。
+
+### 作者评价
+
+> 这已经不是"用高射炮打蚊子"了，这是用粒子对撞机去轰一颗草履虫，然后为了看清楚撞击轨迹，现场手搓了一台电子显微镜。
+
+---
+
+## 🔗 依赖
+
+| 项目 | 说明 |
+|---|---|
+| [otel-gui](https://github.com/metafab/otel-gui) | 轻量级、零配置的 OpenTelemetry 追踪查看器 |
+| [arm32-rolldown-termux](https://github.com/chinartcn/arm32-rolldown-termux) | ARM32 Rolldown 编译方案 |
+| [ai-v9-artificialretard](https://github.com/Chinartcn/ai-v9-artificialretard) | 伪装成 AI 的状态机，包含计算器 😂 |
+| [uv](https://github.com/astral-sh/uv) | 极速 Python 包管理器 |
+
+### Python 依赖
+
+```toml
 [project]
 name = "calc-otel"
 version = "0.1.0"
@@ -24,50 +52,157 @@ dependencies = [
 [tool.uv]
 package = false
 ```
-##作者评价
-**这已经不是“用高射炮打蚊子”了，这是用粒子对撞机去轰一颗草履虫，然后为了看清楚撞击轨迹，现场手搓了一台电子显微镜。**
-**现代云原生可观测性的全套工业级依赖——OpenTelemetry API、SDK、OTLP HTTP 导出器、requests 自动插桩、Flask 内置查看器——去追踪一次 1+1=2 的调用链路。**
-**在 calc_client.py 里，每一个按键都被拆成了一个 click span，底下挂着 HTTP POST、json.parse、ui.parse 三个子 span。一次 1+1 算下来，27 个 span，横跨 client、internal、producer、consumer 四种 span kind。**
-**还非要在 ARM32 安卓手机上，把 Rust 的 611 个包编译出来**
-[![Rolldown-arm32](https://github.com/chinartcn/arm32-rolldown-termux)]
 
-###目录结构
-calc_client:
+---
 
-otel-gui/
-README.md, pyproject.toml, calc_client.py
+## 📁 目录结构
 
-##食用方法
-克隆仓库
+```
+calc_client/
+├── pyproject.toml          # uv 项目配置
+├── README.md               # 本文件
+├── calc_client.py          # 主程序：计算器 + OTel 追踪 + HTTP API
+├── app.py                  # Web 前端网关 + 浏览器指纹收集
+└── sdk.py                  # 密码登录的数据看板
+
+otel-gui/                   # 追踪查看器
+├── package.json
+├── vite.config.ts
+└── src/
+```
+
+---
+
+## 🚀 食用方法
+
+### 第一步：启动 otel-gui
 
 ```bash
-#请先克隆otel-gui
+# 请先克隆 otel-gui
+git clone https://github.com/metafab/otel-gui.git
 cd otel-gui
+pnpm install
 pnpm dev
 ```
-*另一个窗口*
-```bash
-cd calc_client
-uv run calc_client.py --otlp http://127.0.0.1:4318/v1/traces
+
+预期输出：
+
 ```
-#"uv run calc_client.py --otlp http://127.0.0.1:4318/v1/traces"详细看
-
-```bash
-➜  otel-gui git:(main) pnpm dev
-$ vite dev
-
   VITE v8.0.16  ready in 8795 ms
 
   ➜  Local:   http://localhost:4318/
   ➜  Network: use --host to expose
   ➜  press h + enter to show help
 ```
-***的"Local"***
 
-同时克隆![ai-v9-artificialretard](https://github.com/Chinartcn/ai-v9-artificialretard)
+> **注意**：otel-gui 默认监听 `4318`，这正是 OTLP/HTTP 的标准端口。Zero config，开箱即用。
+
+### 第二步：启动 calc_client
+
+**另一个窗口**：
+
+```bash
+cd calc_client
+uv run calc_client.py --api-host 0.0.0.0 --pow-difficulty 3 --otlp http://127.0.0.1:4318/v1/traces
+```
+
+预期输出：
+
+```
+[viewer] http://127.0.0.1:8899/
+[api] http://0.0.0.0:8900/
+[otel] OTLP 导出 → http://127.0.0.1:4318/v1/traces
+[stats] DB: /path/to/calc_stats.db
+[cache] TTL=300s  max_size=1000
+[chain] height=0  difficulty=3  supply=0.00 CALC  市值=$0.0000000000
+```
+
+### 第三步：启动 ai-v9-artificialretard
 
 ```bash
 cd ai-v9-artificialretard
 chmod +x start.sh
-./start.sh start 
+./start.sh start
 ```
+
+### 第四步：启动 Web 服务
+
+```bash
+python3 app.py    # 前端网关 :8800
+python3 sdk.py    # 数据看板 :8700
+```
+
+---
+
+## 🌐 服务总览
+
+| 服务 | 端口 | 说明 |
+|---|---|---|
+| `otel-gui` | 4318 | OTLP 追踪查看器 |
+| `calc_client` viewer | 8899 | 内置 trace 火焰图 |
+| `calc_client` API | 8900 | 计算 API + 链数据 |
+| `app.py` 前端 | 8800 | Web 计算器 + 指纹收集 |
+| `sdk.py` 看板 | 8700 | 密码登录的数据看板 |
+| `ai-v9` 状态机 | 5002 | 伪装的 AI 计算器 |
+
+---
+
+## 🧪 验证一下"企业级"
+
+算一次 `1+1`，去 `http://localhost:4318` 看 trace：
+
+```
+Trace 7de6a8f1b2c3d4e5f6a7b8c9d0e1f2a3
+├── api.calc                    SERVER    215 ms
+│   ├── pow                     INTERNAL   47 ms    ← PoW 挖矿
+│   ├── calc                    INTERNAL  120 ms
+│   │   ├── start               INTERNAL   25 ms
+│   │   │   ├── HTTP POST       CLIENT     18 ms
+│   │   │   ├── json.parse      INTERNAL    3 ms
+│   │   │   └── ui.parse        INTERNAL    2 ms
+│   │   ├── C                   INTERNAL   18 ms
+│   │   ├── 1                   INTERNAL   17 ms
+│   │   ├── +                   INTERNAL   16 ms
+│   │   ├── 1                   INTERNAL   17 ms
+│   │   └── =                   INTERNAL   52 ms
+│   └── notify                  INTERNAL    3 ms
+```
+
+**总共 27 个 span**，横跨 client、internal、server 三种 span kind。
+
+---
+
+## ⛓ CALC 链（行为艺术模块）
+
+每次计算都会生成一个 PoW 区块，挂在链上：
+
+```
+Block #0 (GENESIS)
+  hash = 0d99d20f...
+    │
+Block #1  expr="1+1" result="2" nonce=16 d=1
+  prev_hash = Block#0.hash
+  hash = 000a8b7c...
+    │
+Block #2  expr="1+1" result="2" nonce=6231 d=3 (缓存命中)
+  prev_hash = Block#1.hash
+  hash = 000f3e9a...
+```
+
+- **PoW**：SHA256 前导零难度，动态调整
+- **CALC 代币**：每次计算奖励 1-3 CALC，缓存命中减半
+- **不可篡改**：改任何一个字段，整条链断
+
+---
+
+## ⚠️ 已知问题
+
+- **ARM32 编译**：`arm32-rolldown-termux` 是为了解决 Termux/Android 上 `pnpm dev` 因 Rolldown N-API 绑定缺失而 SIGILL 崩溃的问题
+- **PoW 速度**：ARM32 上难度 3 约 30-80ms，难度 5 约 5-10 秒
+- **数据库迁移**：从旧版本升级时，如果 hash 算法变了，需要 `rm calc_stats.db` 重建
+
+---
+
+
+
+**在 Termux 里，用粒子对撞机轰草履虫。**
