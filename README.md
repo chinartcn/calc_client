@@ -32,7 +32,7 @@
 | [arm32-rolldown-termux](https://github.com/chinartcn/arm32-rolldown-termux) | ARM32 Rolldown 编译方案 |
 | [ai-v9-artificialretard](https://github.com/Chinartcn/ai-v9-artificialretard) | 伪装成 AI 的状态机，包含计算器 😂 |
 | [uv](https://github.com/astral-sh/uv) | 极速 Python 包管理器 |
-
+| [tmux]pkg install tmux|./dev.sh|
 ### Python 依赖
 
 ```toml
@@ -96,6 +96,86 @@ pnpm dev
 ```
 
 > **注意**：otel-gui 默认监听 `4318`，这正是 OTLP/HTTP 的标准端口。Zero config，开箱即用。
+
+####tmux ./dev.sh
+启动**calc_client**与**web服务**
+>必须先安装`*pkg install tmux*`
+
+```bash
+chmod +x
+./dev.sh
+```
+--**`启动后页面**
+```bash
+── 0 calc_client ─────────────────────────────────────┬── 1 app ──────
+cd '/data/data/com.termux/files/home/calc_client' && s│7.018:40 [0/26]
+ource '/data/data/com.termux/files/home/calc_client/.v│uth=off)
+env/bin/activate' && uv run calc_client.py --api-host │[frontend] fp d
+0.0.0.0 --pow-difficulty 3                            │b: /data/data/c
+➜  calc_client cd '/data/data/com.termux/files/home/ca│om.termux/files
+lc_client' && source '/data/data/com.termux/files/home│/home/calc_cli$
+/calc_client/.venv/bin/activate' && uv run calc_client│nt/fingerprints
+.py --api-host 0.0.0.0 --pow-difficulty 3             │.db
+[viewer] http://127.0.0.1:8899/                       │ * Serving Flas
+ * Serving Flask app 'trace_viewer'                   │k app 'app'
+ * Debug mode: off                                    │ * Debug mode:
+[api] http://0.0.0.0:8900/                            │off
+ * Serving Flask app 'calc_api'                       │WARNING: This i
+ * Debug mode: off                                    │s a development
+[stats] DB: /data/data/com.termux/files/home/calc_clie│ server. Do not
+nt/calc_stats.db                                      │ use it in a pr
+[cache] TTL=300s  max_size=1000                       │oduction deploy
+[chain] height=4  difficulty=1  supply=3.50 CALC  cach│ment. Use a pro
+ed_blocks=1  市值=$0.0000000350                       │duction WSGI se
+                                                      │rver instead.
+  对外 API：                                          │ * Running on a
+    POST http://0.0.0.0:8900/api/calc                 │ll addresses (0
+    GET  http://0.0.0.0:8900/api/chain                │.0.0.0)
+    GET  http://0.0.0.0:8900/api/chain/stats          │ * Running on h
+    GET  http://0.0.0.0:8900/api/chain/verify         │ttp://127.0.0.1
+    GET  http://0.0.0.0:8900/api/wallets              │:8800
+    GET  http://0.0.0.0:8900/api/transactions         │ * Running on h
+                                                      │ttp://10.30.168
+输入表达式，空行退出。                                │.177:8800
+命令：:chain  :verify  :wallet  :pow <n>  :export  :qu│Press CTRL+C to
+it                                                    │ quit
+                                                      │
+> 1+1                                                 ├── 2 sdk ──────
+  1+1 = 2   [307 ms]   trace=3f9b04c7                 │/.venv/bin/acti
+  viewer: http://127.0.0.1:8899/trace/3f9b04c72d77cc8b│vate' && uv run
+7b7129926bdd7772                                      │ sdk.py
+> :chain                                              │➜  calc_client
+  高度=4  难度=1  总工作=136  缓存块=1                │cd '/data/data/
+  供应=3.5000 CALC  钱包=1  市值=$0.0000000350        │com.termux/file
+    #4 0c0b3810e0a7… 1+1=2 d=1 nonce=18 [缓存] by web:│s/home/calc_cli
+efbc7293                                              │ent' && source
+    #3 0fc937459239… 1+1=2 d=1 nonce=54 by web:efbc729│'/data/data/com
+3                                                     │.termux/files/h
+    #2 0476f08da3d9… 999/45=22.2 d=1 nonce=42 by web:e│ome/calc_client
+fbc7293                                               │/.venv/bin/acti
+    #1 064270367b57… 999/455=2.195604395604396 d=1 non│vate' && uv run
+ce=18 by web:efbc7293                                 │ sdk.py
+    #0 a6752dbb5af6… GENESIS=CALC d=1 nonce=0 by syste│[sdk] http://12
+m                                                     │7.0.0.1:8700/
+> 1                                                   │[sdk] calc API:
+  1 = 1   [128 ms]   trace=a9f8e12f                   │ http://127.0.0
+  viewer: http://127.0.0.1:8899/trace/a9f8e12f379c54b2│.1:8900
+ade16f13e97826c5                                      │[sdk] 密码文件:
+>                                                     │ /data/data/com
+                                                      │.termux/files/h
+                                                      │ome/calc_client
+                                                      │/admin.pw
+                                                      │[sdk] 如需改密
+                                                      │码，删除 admin.
+                                                      │pw 或设 ADMIN_P
+                                                      │ASSWORD
+                                                      │ * Serving Flas
+                                                      │k app 'sdk'
+                                                      │ * Debug mode:
+                                                      │off
+                                                      │
+ calc | ca0:[tmux]*                                      COPY | 19:05
+```
 
 ### 第二步：启动 calc_client
 
