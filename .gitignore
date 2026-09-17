@@ -3,3 +3,6 @@ fingerprints.db
 admin.pw
 uv.lock
 .venv/
+__pycache__/
+*.pyc
+traces-*.json
